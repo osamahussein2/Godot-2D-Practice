@@ -1,0 +1,3 @@
+This link below is what I used to practice using Godot in 2D:
+
+https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html
