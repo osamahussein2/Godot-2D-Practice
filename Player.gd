@@ -1,5 +1,8 @@
 extends Area2D
 
+# Will send out the player whenever the player hits the enemy
+signal collided
+
 # How fast the player will move across the pixel screen per second
 # @export makes a variable public to Godot, so that it is seen inside the inspector
 @export var playerSpeed = 400
@@ -60,3 +63,27 @@ func _process(delta):
 	
 	# The clamp function restricts any movement from going beyond a certain value/amount
 	position = position.clamp(Vector2(0, 0), screenSize)
+	
+	if playerVelocity.x != 0:
+		$AnimatedSprite2D.animation = "Walk"
+		$AnimatedSprite2D.flip_v = false
+		$AnimatedSprite2D.flip_h = playerVelocity.x < 0
+	elif playerVelocity.y != 0:
+		$AnimatedSprite2D.animation = "Up"
+		$AnimatedSprite2D.flip_v = playerVelocity.y > 0
+
+
+
+func _on_body_entered(body):
+	#pass # Replace with function body.
+	hide() # The player will disappear after colliding with something
+	collided.emit()
+	
+	# Disables the player's collision so that the signal doesn't trigger more than once
+	$CollisionShape2D.set_deferred("disabled", true)
+
+func playerStart(pos):
+	position = pos
+	show()
+	$CollisionShape2D.disabled = false
+
