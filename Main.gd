@@ -7,31 +7,33 @@ var score
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#pass # Replace with function body.
-	
-	new_game()
-
+	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
 
 func game_over():
 	#pass # Replace with function body.
 	
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	
+	$HUD.ShowGameOverScreen()
 
 func new_game():
 	score = 0
 	$Player.playerStart($StartPosition.position)
 	$StartTimer.start()
+	
+	$HUD.UpdateScore(score)
+	$HUD.ShowMessage("Be ready!")
 
 
 func _on_score_timer_timeout():
 	#pass # Replace with function body.
 	score += 1
+	$HUD.UpdateScore(score)
 
 
 func _on_start_timer_timeout():
