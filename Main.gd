@@ -20,6 +20,8 @@ func game_over():
 	$MobTimer.stop()
 	
 	$HUD.ShowGameOverScreen()
+	$Music.stop()
+	$DeathSound.play()
 
 func new_game():
 	score = 0
@@ -28,6 +30,11 @@ func new_game():
 	
 	$HUD.UpdateScore(score)
 	$HUD.ShowMessage("Be ready!")
+	
+	# Calls the named function on every node in a group (the mob should delete itself)
+	get_tree().call_group("mobs", "queue_free")
+	
+	$Music.play()
 
 
 func _on_score_timer_timeout():
